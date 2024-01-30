@@ -24,6 +24,33 @@ public class Runigram {
 		
 		//// Write here whatever code you need in order to test your work.
 		//// You can reuse / overide the contents of the imageOut array.
+
+		imageOut = flippedVertically(tinypic);
+		System.out.println();
+		print(imageOut);
+
+
+		imageOut = grayScaled(tinypic);
+		System.out.println();
+		print(imageOut);
+
+
+		imageOut = scaled(tinypic, 3, 5);
+		System.out.println();
+		print(imageOut);
+
+
+
+
+		Color[][] imageIn = read("ironman.ppm");	
+		imageOut = flippedHorizontally(imageIn);	
+		
+		setCanvas(imageIn);
+		display(imageIn);
+		// pause(3000);
+		// display(imageOut);
+
+
 	}
 
 	/** Returns a 2D array of Color values, representing the image data
@@ -42,7 +69,22 @@ public class Runigram {
 		// creates from the 3 colors a new Color object, and 
 		// makes pixel (i,j) refer to that object.
 		//// Replace the following statement with your code.
-		return null;
+		
+		
+		
+		for (int i=0; i<numRows; i++) {
+			for (int j=0; j<numCols; j++) {
+				int red = in.readInt();
+				int green = in.readInt();
+				int blue = in.readInt();
+
+				image[i][j] = new Color(red, green, blue);
+			}
+		}
+		
+		
+		
+		return image;
 	}
 
     // Prints the RGB values of a given color.
@@ -61,6 +103,14 @@ public class Runigram {
 	// we can apply the function and then use this function to print the resulting image.
 	private static void print(Color[][] image) {
 		//// Replace this comment with your code
+	
+		for (int i=0; i<image.length; i++) {
+			for (int j=0; j<image[0].length; j++) {
+				print(image[i][j]);
+			}
+			System.out.println();
+		}
+		
 	}
 	
 	/**
@@ -68,7 +118,27 @@ public class Runigram {
 	 */
 	public static Color[][] flippedHorizontally(Color[][] image) {
 		//// Replace the following statement with your code
-		return null;
+		
+		
+		int rows = image.length;
+		int cols = image[0].length;
+
+		Color[][] flippedImage = new Color[rows][cols];
+
+		for (int i=0; i<rows; i++) {
+			for (int j=0; j<cols/2; j++) {
+				int counterJ = cols - j -1;
+				flippedImage[i][j] = image[i][counterJ];
+				flippedImage[i][counterJ] = image[i][j];
+			}
+
+			// check middle:
+			if(cols % 2 == 1) {
+				flippedImage[i][cols/2] = image[i][cols/2];
+			}
+		}
+		
+		return flippedImage;
 	}
 	
 	/**
@@ -76,7 +146,24 @@ public class Runigram {
 	 */
 	public static Color[][] flippedVertically(Color[][] image){
 		//// Replace the following statement with your code
-		return null;
+		
+		int rows = image.length;
+		int cols = image[0].length;
+
+		Color[][] flippedImage = new Color[rows][cols];
+
+		for (int i=0; i<rows; i++) {
+			int counterI = rows - i -1;
+			flippedImage[i] = image[counterI];
+			flippedImage[counterI] = image[i];
+
+			// check middle:
+		}
+		if(rows % 2 == 1) {
+			flippedImage[rows/2] = image[rows/2];
+		}
+		
+		return flippedImage;
 	}
 	
 	// Computes the luminance of the RGB values of the given pixel, using the formula 
@@ -84,7 +171,11 @@ public class Runigram {
 	// the three values r = lum, g = lum, b = lum.
 	public static Color luminance(Color pixel) {
 		//// Replace the following statement with your code
-		return null;
+		int r = pixel.getRed();
+		int g = pixel.getGreen();
+		int b = pixel.getBlue();
+		int lum = (int)(0.299 * r + 0.587 * g + 0.114 * b);
+		return new Color(lum, lum, lum);
 	}
 	
 	/**
@@ -92,7 +183,21 @@ public class Runigram {
 	 */
 	public static Color[][] grayScaled(Color[][] image) {
 		//// Replace the following statement with your code
-		return null;
+		
+		int rows = image.length;
+		int cols = image[0].length;
+		
+		Color[][] greyImage = new Color[rows][cols];
+		
+		for (int i=0; i<rows; i++) {
+			for (int j=0; j<cols; j++) {
+				Color original = image[i][j];
+				Color grey = luminance(original);
+				greyImage[i][j] = grey;
+			}
+		}
+
+		return greyImage;
 	}	
 	
 	/**
@@ -101,7 +206,24 @@ public class Runigram {
 	 */
 	public static Color[][] scaled(Color[][] image, int width, int height) {
 		//// Replace the following statement with your code
-		return null;
+		
+		int widthOriginal = image[0].length;
+		int heightOriginal = image.length;
+
+		double wRatio = (double)widthOriginal / (double)width;
+		double hRatio = (double)heightOriginal / (double)height;
+
+		Color[][] scaledImage = new Color[height][width];
+
+		for(int i=0; i<height; i++){
+			for(int j=0; j<width; j++){
+				int iFromOriginal = (int)(i * hRatio);
+				int jFromOriginal = (int)(j * wRatio);
+				scaledImage[i][j] = image[iFromOriginal][jFromOriginal];
+			}
+		}
+
+		return scaledImage;
 	}
 	
 	/**
@@ -112,7 +234,12 @@ public class Runigram {
 	 */
 	public static Color blend(Color c1, Color c2, double alpha) {
 		//// Replace the following statement with your code
-		return null;
+
+		int r = (int)((alpha * (double)c1.getRed()) + ((1-alpha) * (double)c2.getRed()));
+		int g = (int)((alpha * (double)c1.getGreen()) + ((1-alpha) * (double)c2.getGreen()));
+		int b = (int)((alpha * (double)c1.getBlue()) + ((1-alpha) * (double)c2.getBlue()));
+
+		return new Color(r,g,b);
 	}
 	
 	/**
@@ -123,8 +250,21 @@ public class Runigram {
 	 */
 	public static Color[][] blend(Color[][] image1, Color[][] image2, double alpha) {
 		//// Replace the following statement with your code
-		return null;
+				
+		int rows = image1.length;
+		int cols = image1[0].length;
+		
+		Color[][] blendImage = new Color[rows][cols];
+		
+		for (int i=0; i<rows; i++) {
+			for (int j=0; j<cols; j++) {
+				blendImage[i][j] = blend(image1[i][j], image2[i][j], alpha);
+			}
+		}
+
+		return blendImage;
 	}
+
 
 	/**
 	 * Morphs the source image into the target image, gradually, in n steps.
@@ -133,7 +273,15 @@ public class Runigram {
 	 * of the source image.
 	 */
 	public static void morph(Color[][] source, Color[][] target, int n) {
+		target = scaled(target, source[0].length, source.length);
 		//// Replace this comment with your code
+		for(int i=0; i<n; i++) {
+			double alpha = (double)(n-i) / (double)n;
+			Color[][] image = blend(source, target, alpha);
+			display(image);
+			StdDraw.pause(500);
+		}
+
 	}
 	
 	/** Creates a canvas for the given image. */
