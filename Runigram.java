@@ -29,27 +29,19 @@ public class Runigram {
 		System.out.println();
 		print(imageOut);
 
-
 		imageOut = grayScaled(tinypic);
 		System.out.println();
 		print(imageOut);
 
-
 		imageOut = scaled(tinypic, 3, 5);
 		System.out.println();
 		print(imageOut);
-
-
-
 
 		Color[][] imageIn = read("thor.ppm");	
 		imageOut = grayScaled(imageIn);	
 		
 		setCanvas(imageOut);
 		display(imageOut);
-		// pause(3000);`
-		// display(imageOut);
-
 
 	}
 
@@ -70,8 +62,6 @@ public class Runigram {
 		// makes pixel (i,j) refer to that object.
 		//// Replace the following statement with your code.
 		
-		
-		
 		for (int i=0; i<numRows; i++) {
 			for (int j=0; j<numCols; j++) {
 				int red = in.readInt();
@@ -81,8 +71,6 @@ public class Runigram {
 				image[i][j] = new Color(red, green, blue);
 			}
 		}
-		
-		
 		
 		return image;
 	}
@@ -284,10 +272,6 @@ public class Runigram {
 			display(image);
 			StdDraw.pause(500);
 		}
-
-
-
-
 
 	}
 	
