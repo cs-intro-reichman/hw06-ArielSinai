@@ -42,12 +42,12 @@ public class Runigram {
 
 
 
-		Color[][] imageIn = read("ironman.ppm");	
-		imageOut = flippedHorizontally(imageIn);	
+		Color[][] imageIn = read("thor.ppm");	
+		imageOut = grayScaled(imageIn);	
 		
-		setCanvas(imageIn);
-		display(imageIn);
-		// pause(3000);
+		setCanvas(imageOut);
+		display(imageOut);
+		// pause(3000);`
 		// display(imageOut);
 
 
@@ -263,6 +263,7 @@ public class Runigram {
 		}
 
 		return blendImage;
+
 	}
 
 
@@ -273,14 +274,20 @@ public class Runigram {
 	 * of the source image.
 	 */
 	public static void morph(Color[][] source, Color[][] target, int n) {
-		target = scaled(target, source[0].length, source.length);
-		//// Replace this comment with your code
+		// target = scaled(target, source[0].length, source.length);
+		// //// Replace this comment with your code
+
+
 		for(int i=0; i<n; i++) {
 			double alpha = (double)(n-i) / (double)n;
 			Color[][] image = blend(source, target, alpha);
 			display(image);
 			StdDraw.pause(500);
 		}
+
+
+
+
 
 	}
 	
