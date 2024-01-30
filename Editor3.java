@@ -16,6 +16,13 @@ public class Editor3 {
 		String source = args[0];
 		String target = args[1];
 		int n = Integer.parseInt(args[2]);
+		
+		// String source = "cake.ppm";
+		// String target = "ironman.ppm";
+		// int n = 50;
+
+
+
 		Color[][] sourceImage = Runigram.read(source);
 		Color[][] targetImage = Runigram.read(target);
 		Runigram.setCanvas(sourceImage);
